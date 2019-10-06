@@ -62,8 +62,8 @@ class Header extends React.Component{
             
               {/* </div> */}
             {/* </TypoGraphy> */}
-            
-          </Toolbar>
+              {/* <button onClick={firebase.auth().signOut()} >log out</button> */}
+          </Toolbar>  
         </AppBar>
 
 

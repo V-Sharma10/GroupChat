@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import firebase from './../Firebase/firebase'
 import { Redirect } from 'react-router-dom'
-import { Container, Typography, TextField } from '@material-ui/core';
+import { Container, Typography, TextField, Snackbar } from '@material-ui/core';
 import './style.css';
 import LockIcon from '@material-ui/icons/Lock';
 import {Icon} from '@material-ui/core'
@@ -11,7 +11,14 @@ import Button from '@material-ui/core/Button';
 
 export default class SignIn extends Component {
   state={
-    islogged:false,
+            islogged:false,
+            open: false,
+          vertical: 'top',
+          horizontal: 'center',
+          email:'',
+          password:'',
+          
+
   }
   componentWillMount(){
     firebase.auth().onAuthStateChanged((user)=>{
@@ -19,8 +26,8 @@ export default class SignIn extends Component {
         this.setState({
           islogged:true,
           email:'',
-          password:''
-
+          password:'',
+          
         })
       }
 
@@ -28,8 +35,39 @@ export default class SignIn extends Component {
   }
   handleChange=(event)=>{
     console.log([event.target.name]+' : '+ event.target.value);
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
+  handleSubmit=()=>{
+    console.log(this.state.email +" "+ this.state.password);
+    firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.password
+    //   ,()=>{
+    //   console.log('successful');
+    // }
+    ).then((any)=>{
+      console.log('successful')
+    }).catch((err)=>{
+      console.log(err);
+
+    this.handleClick();
+      
+    });
+
+  }
+
+  handleClick = () => {
+    this.setState({ open: true, vertical:'bottom'});
+  };
+
+  // handleClose = () => {
+  //   this.setState({ open: false });
+  // };
+
   render() {
+
+  const { vertical, horizontal, open } = this.state;
+
 
     if(this.state.islogged){
       return <Redirect to="/"/>
@@ -39,13 +77,11 @@ export default class SignIn extends Component {
           Signin Page
           <Container maxWidth="xs">
           <Typography className="signinPage" component="div" style={{ backgroundColor: '#bfbdba24'}} >
-          {/* <i style={{color:'red',fontSize:'50px'}} className="fa fa-lock" aria-hidden="true"></i> */}
           <LockIcon style={{color:'aqua',fontSize:'50px'}}/>
           <TextField
           required
           id="outlined-email-input"
           label="Email"
-          // className={classes.textField}
           type="email"
           name="email"
           autoComplete="email"
@@ -57,7 +93,6 @@ export default class SignIn extends Component {
          <TextField
           id="outlined-password-input"
           label="Password"
-          // className={classes.textField}
           type="password"
           autoComplete="current-password"
           margin="normal"
@@ -68,42 +103,34 @@ export default class SignIn extends Component {
           onChange={this.handleChange}
         />
         <br/>
-        {/* <TextField
-          id="filled-full-width"
-          label="Email"
-          style={{ margin: 8 }}
-          placeholder="Enter your Email"
-          helperText="Full width!"
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-        }}
-      /> */}
-
-{/* <ThemeProvider 
-style={{color:'green'}}
-  
->
-        <Button  variant="contained" color="primary" 
-        // className={classes.margin}
-        >
-          Theme Provider
-        </Button>
-      </ThemeProvider> */}
+        
       <br/>
       <Button
         variant="contained"
         color="primary"
-        // className={classes.button}
         endIcon={<Icon>send</Icon>}
+        onClick={this.handleSubmit}
       >
         
         Login
       </Button>
           </Typography>
           </Container>
+
+
+        <Snackbar
+        anchorOrigin={{ vertical,horizontal }}
+        key={`${vertical},${horizontal}`}
+        open={open}
+        // onClose={this.handleClose}
+        autoHideDuration={2000}
+        bodyStyle={{ backgroundColor: 'red', color: 'coral' }}
+        
+        // ContentProps={{
+        //   'aria-describedby': 'message-id',
+        // }}
+        message={<span >Login Failed. Please Try Again.</span>}
+      />
       </div>
     )
   }

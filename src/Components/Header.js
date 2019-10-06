@@ -28,11 +28,34 @@ class Header extends React.Component{
             islogged:true,
           })
         }
+        else{
+          this.setState({
+            islogged:false,
+          })
+        }
 
       })
 
 
     }
+    // componentDidMount(){
+    //   firebase.auth().onAuthStateChanged((user)=>{
+    //     console.log('firebase connected');
+    //     if(user){
+    //       this.setState({
+    //         islogged:true,
+    //       })
+          
+    //     }else{
+    //       this.setState({
+    //         islogged:false,
+    //       })
+    //     }
+
+    //   })
+
+
+    // }
 
     render(){
     return(
@@ -45,7 +68,10 @@ class Header extends React.Component{
               {/* color="inherit"> */}
               
             
-            <div style={{width:'80%',}}>
+            <div style={{
+              
+              width:'80%',
+              }}>
             <Tooltip TransitionComponent={Zoom} placement="bottom" title="Home">
             <Link to="/">
               <img src={require('./../assets/logo.png')} alt="logo" width="50px" />

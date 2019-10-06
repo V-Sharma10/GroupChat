@@ -8,18 +8,23 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Header from './Components/Header';
+import Box from '@material-ui/core/Box';
 
 ReactDOM.render(
     <React.Fragment>
     <CssBaseline />
+    <Box m={window.innerWidth>660?8:0} style={window.innerWidth>660? {marginTop:'0'} :{marginTop:'0',marginLeft:'0'}}>
+    <BrowserRouter>
+    <Header/>
     <Container maxWidth="md">
-      <Typography component="div" style={{height: '100vh' }} >
-      <BrowserRouter>
-      <Header/>
+      <Typography component="div" style={{height: '100vh'}} >
+      
       <App />
-      </BrowserRouter>
       </Typography>
     </Container>
+
+    </BrowserRouter>
+    </Box>
   </React.Fragment>
     , document.getElementById('root'));
 

@@ -7,6 +7,7 @@ import SignInSide from './Components/SignIn';
 import SignUp from './Components/SignUp';
 import ForgotPassword from './Components/ForgotPassword';
 import NotFound from './Components/NotFound';
+import Rooms from './Components/Rooms';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signin" component={SignInSide}/>
         <Route path="/signup" component={SignUp}/>
         <Route path="/forgotPassword" component={ForgotPassword} />
+        <Route path="/rooms" component={Rooms}/>
         <Route component={NotFound}/>
       </Switch>
 

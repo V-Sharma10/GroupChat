@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import firebase from './../Firebase/firebase'
-import { Redirect } from 'react-router-dom'
-import { Container, Typography, TextField, Snackbar } from '@material-ui/core';
+import { Redirect, Link } from 'react-router-dom'
+import { Container, Typography, TextField, Snackbar, Box } from '@material-ui/core';
 import './style.css';
 import LockIcon from '@material-ui/icons/Lock';
 import {Icon} from '@material-ui/core'
@@ -58,6 +58,9 @@ export default class SignIn extends Component {
 
   handleClick = () => {
     this.setState({ open: true, vertical:'bottom'});
+    setTimeout(function(){
+      this.setState({open:false});
+ }.bind(this),2000);
   };
 
   // handleClose = () => {
@@ -114,7 +117,14 @@ export default class SignIn extends Component {
         
         Login
       </Button>
+
+        <hr/>
+        <span>Doesn't have Account! Sign Up <Link to="/signup"><code>here</code></Link></span>
+
           </Typography>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
           </Container>
 
 
@@ -122,16 +132,29 @@ export default class SignIn extends Component {
         anchorOrigin={{ vertical,horizontal }}
         key={`${vertical},${horizontal}`}
         open={open}
-        // onClose={this.handleClose}
+        onClose={this.handleClose}
         autoHideDuration={2000}
-        bodyStyle={{ backgroundColor: 'red', color: 'coral' }}
+        style={{  backgroundColor: 'red', }}
         
         // ContentProps={{
         //   'aria-describedby': 'message-id',
         // }}
-        message={<span >Login Failed. Please Try Again.</span>}
+        message={<span>Login Failed. Please Try Again.</span>}
       />
       </div>
     )
   }
+}
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
 }

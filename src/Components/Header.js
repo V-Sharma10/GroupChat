@@ -70,7 +70,7 @@ class Header extends React.Component{
             
             <div style={{
               
-              width:'80%',
+              width:'90%',
               }}>
             <Tooltip TransitionComponent={Zoom} placement="bottom" title="Home">
             <Link to="/">

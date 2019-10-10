@@ -36,7 +36,7 @@ export default class Home extends Component {
                 this.setState({islogged:true,user:user.email});
                 
 
-            // this.ShowGroup(user.email)
+            this.ShowGroup(user.email);      
             }
         })
         console.log(this.state.user);
@@ -57,6 +57,7 @@ export default class Home extends Component {
             }
         })
 
+        window.scrollTo(0,0);
     }
 
     handleClick = () => {
@@ -94,6 +95,11 @@ export default class Home extends Component {
                 </Container>:this.state.fetch===false?<Spinner/>:
                 <Container maxWidth="sm">   
                 {this.state.grp.map((element,i)=>{
+
+                    console.log(element);
+                    // firebase.ref(`/rooms/${element}`).once((snap)=>{
+                    //         console.log(snap.val())
+                    // })
 
                     return(
                         <Rooms 

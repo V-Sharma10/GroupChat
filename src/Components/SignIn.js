@@ -32,6 +32,7 @@ export default class SignIn extends Component {
       }
 
     })
+        window.scrollTo(0,0);
   }
   handleChange=(event)=>{
     console.log([event.target.name]+' : '+ event.target.value);

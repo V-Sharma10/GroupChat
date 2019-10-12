@@ -7,6 +7,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import {Icon} from '@material-ui/core'
 // import { ThemeProvider } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
+import Spinner from './Spinner/Spinner';
 
 
 export default class SignIn extends Component {
@@ -17,6 +18,7 @@ export default class SignIn extends Component {
           horizontal: 'center',
           email:'',
           password:'',
+          flag:false,
           
 
   }
@@ -42,14 +44,20 @@ export default class SignIn extends Component {
   }
   handleSubmit=()=>{
     console.log(this.state.email +" "+ this.state.password);
+    this.setState({
+      flag:true,
+    });
     firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.password
     //   ,()=>{
     //   console.log('successful');
     // }
+    
     ).then((any)=>{
-      console.log('successful')
+      console.log('successful');
+      
     }).catch((err)=>{
       console.log(err);
+      
 
     this.handleClick();
       
@@ -59,10 +67,25 @@ export default class SignIn extends Component {
 
   handleClick = () => {
     this.setState({ open: true, vertical:'bottom'});
+    // alert('Login failed. Please Try Again...')
     setTimeout(function(){
       this.setState({open:false});
  }.bind(this),2000);
+
+//  this.snackbarAppear();
   };
+  
+  
+
+
+
+  SpinnerDis=()=>{
+    this.setState({
+      open:true,
+      flag:false,
+      
+    })
+  }
 
   // handleClose = () => {
   //   this.setState({ open: false });
@@ -76,7 +99,8 @@ export default class SignIn extends Component {
     if(this.state.islogged){
       return <Redirect to="/"/>
     }
-    return (
+    return (<React.Fragment>
+      {this.state.flag===false  && this.state.open===false?
       <div className="signinPage">
           Signin Page
           <Container maxWidth="xs">
@@ -132,17 +156,42 @@ export default class SignIn extends Component {
         <Snackbar
         anchorOrigin={{ vertical,horizontal }}
         key={`${vertical},${horizontal}`}
-        open={open}
-        onClose={this.handleClose}
+        open={true}
+        // onClose={this.handleClose}
         autoHideDuration={2000}
         style={{  backgroundColor: 'red', }}
         
         // ContentProps={{
         //   'aria-describedby': 'message-id',
         // }}
-        message={<span>Login Failed. Please Try Again.</span>}
+        message={<span>No Account Found. Please Enter Credentials.</span>}
       />
       </div>
+       :<h1 >Please Wait... <br/> <br/> <br/> <Spinner /></h1>} 
+
+
+
+       {this.state.open===true  && this.state.flag===true?
+
+       [
+         
+
+         <Snackbar
+         anchorOrigin={{ vertical,horizontal }}
+         key={`${vertical},${horizontal}`}
+         open={true}
+        //  onClose={this.handleClose}
+         autoHideDuration={2000}
+         style={{  backgroundColor: 'red', }}
+         
+         // ContentProps={{
+         //   'aria-describedby': 'message-id',
+         // }}
+         message={<span>Login Failed. Please Try Again.</span>}></Snackbar>
+         ,this.SpinnerDis()
+        ]
+        :null}
+      </React.Fragment>
     )
   }
 }

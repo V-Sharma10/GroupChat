@@ -2,7 +2,7 @@ import React from 'react'
 import firebase from './../Firebase/firebase'
 import Spinner from './Spinner/Spinner';
 
-import {TextareaAutosize, TextField,Button,Icon} from '@material-ui/core';
+import {TextareaAutosize, TextField,Button,Icon,Snackbar} from '@material-ui/core';
 import Message from './Message';
 
 
@@ -13,7 +13,10 @@ export default class Group extends React.Component {
         title:'',
         message:'',
         author:'',
-        loaded:false
+        loaded:false,
+        open: false,
+        vertical: 'bottom',
+        horizontal: 'center',
         
     }
 
@@ -26,7 +29,10 @@ export default class Group extends React.Component {
                 })
             }
             else{
-                alert('Login to Post messages.')
+                // alert('Login to Post messages.')
+                this.setState({
+                    open:true,
+                })
             }
         })
 
@@ -49,6 +55,9 @@ export default class Group extends React.Component {
     }
 
     render(){
+
+
+  const { vertical, horizontal, open } = this.state;
 
     return (
         
@@ -97,17 +106,36 @@ export default class Group extends React.Component {
              />
              <br/>
 
-            <TextareaAutosize aria-label="minimum height" rows={5} style={{width:'75%',backgroundColor:'#00000010',fontSize:'15px',textAlign:'center'}} placeholder="Your Message" />
+            <TextareaAutosize 
+            aria-label="minimum height" 
+            rows={5} 
+            style={{width:'75%',backgroundColor:'#00000010',fontSize:'15px',textAlign:'center'}} 
+            placeholder="Your Message" />
                     <br/>
                     <Button
                         variant="contained"
                         color="primary"
                         // className={classes.button}
                         endIcon={<Icon>send</Icon>}
+                        disabled={this.state.open}
                     >
                         Send
                     </Button>
             </div>
+
+
+            <Snackbar
+         anchorOrigin={{ vertical,horizontal }}
+         key={`${vertical},${horizontal}`}
+         open={open}
+        //  onClose={this.handleClose}
+        //  autoHideDuration={200}
+         style={{  backgroundColor: 'red', }}
+         
+         // ContentProps={{
+         //   'aria-describedby': 'message-id',
+         // }}
+         message={<span>Login to read and post  messages.</span>}/>
             
         </div>
     )

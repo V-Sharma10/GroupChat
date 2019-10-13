@@ -9,6 +9,7 @@ import ForgotPassword from './Components/ForgotPassword';
 import NotFound from './Components/NotFound';
 import Rooms from './Components/Rooms';
 import Group from './Components/Group';
+import NewPage from './Components/NewGroup/NewGroup';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/forgotPassword" component={ForgotPassword} />
         <Route path="/rooms" component={Rooms}/>
         <Route path="/group/:grpID" component={Group}/>
+        <Route path="/newgroup" component={NewPage}/>
         <Route component={NotFound}/>
       </Switch>
 

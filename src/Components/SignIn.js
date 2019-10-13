@@ -93,7 +93,9 @@ export default class SignIn extends Component {
 
   render() {
 
-  const { vertical, horizontal, open } = this.state;
+  const { vertical, horizontal, 
+    // open 
+  } = this.state;
 
 
     if(this.state.islogged){

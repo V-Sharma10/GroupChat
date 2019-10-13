@@ -31,7 +31,7 @@ const SignOut=()=>{
         <div className="menuItems" style={{display:'flex',margin:'0 10px'}}>
            
            <Tooltip TransitionComponent={Zoom} placement="bottom" title="Create New Group">
-           <NavLink style={{marginRight:'15px'}}  className="" to="/signup"  >
+           <NavLink style={{marginRight:'15px'}}  className="" to="/newgroup"  >
                 <i style={{fontSize:'30px',color:'black'}} className="fa fa-plus" aria-hidden="true"></i>
             </NavLink>
             </Tooltip>

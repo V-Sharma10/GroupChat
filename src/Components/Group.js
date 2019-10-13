@@ -10,6 +10,7 @@ import Message from './Message';
 export default class Group extends React.Component {
     state={
         messagesArray:[],
+        userlist:[],
         title:'',
         message:'',
         author:'',
@@ -37,10 +38,11 @@ export default class Group extends React.Component {
         })
 
 
-        firebase.database().ref(`/rooms/${this.props.match.params.grpID}/messages`).on('value',(snapshot)=>{
+        firebase.database().ref(`/rooms/${this.props.match.params.grpID}/`).on('value',(snapshot)=>{
             // console.log(snapshot.val());
             this.setState({
-                messagesArray:snapshot.val().reverse(),
+                messagesArray:snapshot.val().messages,
+                userlist:snapshot.val().userlist
             },()=>{
                 console.log(this.state.messagesArray);
                 this.setState({
@@ -53,7 +55,37 @@ export default class Group extends React.Component {
 
         // console.log(this.state);
     }
+    handleChange=(e)=>{
+        this.setState({
+            [e.target.name]:e.target.value    
+        })
 
+    }
+    handleSubmit=()=>{
+        console.log(this.state);
+        let arr =[],new_msg={};
+        arr = this.state.messagesArray!=null? this.state.messagesArray.reverse():[];
+        console.log('reversed of the reversed')
+        console.log(arr);
+        new_msg={
+            author:this.state.author,
+            message:this.state.message,
+            title:this.state.title,
+        }
+
+        arr.push(new_msg);
+
+        console.log('after pushing new msg')
+        console.log(arr);
+
+
+        firebase.database().ref(`/rooms/${this.props.match.params.grpID}/`).set({
+            userlist:this.state.userlist,
+            messages:arr
+
+            
+        })
+    }
     render(){
 
 
@@ -72,7 +104,7 @@ export default class Group extends React.Component {
             this.state.messagesArray?
             <div style={{height:'300px',overflowY:'auto',overflowX:'hidden'}}>
 
-                 {this.state.messagesArray.map((element,i)=>{
+                 {this.state.messagesArray.reverse().map((element,i)=>{
 
                     return(
                         <Message key={i} 
@@ -98,19 +130,26 @@ export default class Group extends React.Component {
             <TextField
                 id="outlined-name"
                 label="Title"
+                name="title"
                 // className={classes.textField}
                 // value={values.name}
                 // onChange={handleChange('name')}
                 margin="normal"
                 variant="outlined"
+                onChange={this.handleChange}
+                defaultValue={this.state.title}
              />
              <br/>
 
             <TextareaAutosize 
             aria-label="minimum height" 
             rows={5} 
+            name="message"
+            onChange={this.handleChange}
+            defaultValue={this.state.message}
             style={{width:'75%',backgroundColor:'#00000010',fontSize:'15px',textAlign:'center'}} 
             placeholder="Your Message" />
+
                     <br/>
                     <Button
                         variant="contained"
@@ -118,6 +157,7 @@ export default class Group extends React.Component {
                         // className={classes.button}
                         endIcon={<Icon>send</Icon>}
                         disabled={this.state.open}
+                        onClick={this.handleSubmit}
                     >
                         Send
                     </Button>
@@ -135,7 +175,7 @@ export default class Group extends React.Component {
          // ContentProps={{
          //   'aria-describedby': 'message-id',
          // }}
-         message={<span>Login to read and post  messages.</span>}/>
+         message={<span>Login to read and post new messages.</span>}/>
             
         </div>
     )

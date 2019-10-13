@@ -11,9 +11,11 @@ export default function SignInMenu() {
             </NavLink>
             </Tooltip>
             <Tooltip placement="bottom" title="Check out the Repository">
+                <a href="https://github.com/V-Sharma10/GroupChat">
             <NavLink to="/signin"  >
                 <i style={{fontSize:'30px',color:'black'}} className="fa fa-code" aria-hidden="true"></i>
             </NavLink>
+            </a>
             </Tooltip>
               
         </div>
